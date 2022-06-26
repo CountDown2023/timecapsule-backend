@@ -1,1 +1,3 @@
 rootProject.name = 'timecapsule'
+include 'timecapsule-api'
+
