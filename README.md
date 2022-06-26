@@ -36,5 +36,7 @@
     - On Save -> 'Remove trailing blank lines 어쩌구', 'Ensure every saved 어쩌구' 체크
     - apply
 
-
+- **IntelliJ에서 commit할 때 자동 Reformat Code**
+    - Commit -> Amend 옆 톱니바퀴
+    - Before commit -> Reformat Code 체크
 - **규칙을 무시해야하는 경우 @SuppressWarnings("checkstyle:규칙명") 어노테이션 삽입**
