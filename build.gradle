@@ -14,6 +14,10 @@ allprojects {
 	}
 }
 
+bootJar {
+	enabled = false
+}
+
 subprojects {
 	apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management'
@@ -43,7 +47,11 @@ subprojects {
 		useJUnitPlatform()
 	}
 
-	tasks.getByName("jar") {
+	bootJar {
+		enabled = true
+	}
+
+	jar {
 		enabled = false
 	}
 }
