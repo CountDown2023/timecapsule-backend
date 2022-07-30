@@ -1,29 +1,30 @@
 package com.timecapsule.infra.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import com.timecapsule.infra.entity.SampleEntity;
+import com.timecapsule.infra.entity.Member;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
-class SampleEntityRepositoryTest extends BaseRepositoryTest {
+public class MemberRepositoryTest extends BaseRepositoryTest {
 
     @Autowired
-    private SampleEntityRepository sampleEntityRepository;
+    private MemberRepository memberRepository;
 
     @Test
     public void findById() {
         // given
-        var entity = SampleEntity.of("뀨뀨찬찬");
+        var entity = Member.of("뀨뀨찬찬", "123123");
 
         // when
-        var saved = sampleEntityRepository.save(entity);
+        var saved = memberRepository.save(entity);
 
         // then
         assertThat(saved.getId()).isNotNull();
-        var found = sampleEntityRepository.findById(saved.getId());
+        var found = memberRepository.findById(saved.getId());
         assertThat(found).isNotNull();
         assertThat(found.get().getId()).isNotNull();
         assertThat(found.get().getId()).isEqualTo(saved.getId());
+
+        assertThat(found.get().getNickName()).isEqualTo(saved.getNickName());
     }
 }
