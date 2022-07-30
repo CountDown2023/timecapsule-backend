@@ -1,0 +1,36 @@
+spring:
+  profiles:
+    active: local, dev, test
+
+  datasource:
+    username: root
+    password: root
+    jpa-hibernate-ddl-auto: create-drop
+    url: jdbc:mysql://localhost:3306/timecapsule?serverTimezone=Asia/Seoul
+    maximum-pool-size: 100
+    connection-timeout: 3000
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    properties:
+      hiberante.format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+
+
+---
+spring:
+  profiles:
+    active: production
+
+  datasource:
+    username: fincore22
+    password: rmazhvmf123!
+    jpa-hibernate-ddl-auto: validate
+    url: jdbc:mysql://43.200.79.62:3306/timecapsule?serverTimezone=Asia/Seoul
+    maximum-pool-size: 100
+    connection-timeout: 3000
+    driver-class-name: com.mysql.cj.jdbc.Driver
