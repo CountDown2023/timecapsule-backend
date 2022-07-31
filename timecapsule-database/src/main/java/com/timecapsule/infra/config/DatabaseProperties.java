@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConstructorBinding
 @ConfigurationProperties(prefix = "spring.datasource")
 public class DatabaseProperties {
-    private final String userName;
+    private final String username;
     private final String password;
     private final String driverClassName;
     private final String jpaHibernateDdlAuto;

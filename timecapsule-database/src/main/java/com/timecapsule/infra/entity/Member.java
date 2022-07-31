@@ -20,14 +20,16 @@ public class Member extends BaseTimeEntity {
     @Column(unique = true)
     private String nickName;
     private String password;
+    private String email;
 
-    private Member(String nickName, String password) {
+    private Member(String nickName, String password, String email) {
         this.nickName = nickName;
         this.password = password;
+        this.email = email;
     }
 
-    public static Member of(String nickName, String password) {
-        return new Member(nickName, password);
+    public static Member of(String nickName, String password, String email) {
+        return new Member(nickName, password, email);
     }
 
 }

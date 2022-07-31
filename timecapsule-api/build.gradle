@@ -1,3 +1,7 @@
 dependencies {
     // <- 프로젝트 명 알파벳 순으로!
+    implementation project(':timecapsule-database')
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 }

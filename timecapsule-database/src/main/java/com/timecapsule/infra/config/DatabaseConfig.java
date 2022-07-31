@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @RequiredArgsConstructor
 @EnableJpaAuditing
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages="com.timecapsule")
+@EnableJpaRepositories(basePackages="com.timecapsule.infra.repository")
 @EnableConfigurationProperties(DatabaseProperties.class)
 @Configuration
 public class DatabaseConfig {
@@ -33,7 +33,7 @@ public class DatabaseConfig {
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(databaseProperties.getUrl());
-        config.setUsername(databaseProperties.getUserName());
+        config.setUsername(databaseProperties.getUsername());
         config.setPassword(databaseProperties.getPassword());
         config.setDriverClassName(databaseProperties.getDriverClassName());
         config.setMaximumPoolSize(databaseProperties.getMaximumPoolSize());
