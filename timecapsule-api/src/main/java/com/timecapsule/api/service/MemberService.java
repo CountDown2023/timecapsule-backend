@@ -1,4 +1,4 @@
-package com.timecapsule.service;
+package com.timecapsule.api.service;
 
 import com.timecapsule.infra.entity.Member;
 import com.timecapsule.infra.repository.MemberRepository;

@@ -1,4 +1,4 @@
-package com.timecapsule;
+package com.timecapsule.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
