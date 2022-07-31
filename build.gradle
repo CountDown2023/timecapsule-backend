@@ -45,12 +45,13 @@ subprojects { it ->
 				enabled = false
 			}
 		}
-    
-    tasks.getByName("jar") {
-		  enabled = true
-    }
-    
+
+		tasks.getByName("jar") {
+			enabled = true
+		}
+
 		tasks.named('test') {
 			useJUnitPlatform()
 		}
+	}
 }
