@@ -13,7 +13,7 @@ public class MemberRepositoryTest extends BaseRepositoryTest {
     @Test
     public void findById() {
         // given
-        var entity = Member.of("뀨뀨찬찬", "123123");
+        var entity = Member.of("뀨뀨찬찬", "123123", "email@naver.com");
 
         // when
         var saved = memberRepository.save(entity);
