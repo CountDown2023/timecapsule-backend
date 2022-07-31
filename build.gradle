@@ -41,13 +41,16 @@ subprojects { it ->
 
 		def nonDeployedProjects = ["timecapsule-database"]
 		if (it.name !in nonDeployedProjects) {
-			tasks.getByName("jar") {
+			tasks.getByName("bootJar") {
 				enabled = false
 			}
 		}
-
+    
+    tasks.getByName("jar") {
+		  enabled = true
+    }
+    
 		tasks.named('test') {
 			useJUnitPlatform()
 		}
-	}
 }
