@@ -13,7 +13,6 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     public Member signUp(String nickName, String password, String email) {
-        // TODO :
         return memberRepository.save(
             Member.of(
                 nickName,
