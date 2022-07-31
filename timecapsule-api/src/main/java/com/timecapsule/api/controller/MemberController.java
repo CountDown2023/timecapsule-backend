@@ -1,8 +1,8 @@
-package com.timecapsule.controller;
+package com.timecapsule.api.controller;
 
 
-import com.timecapsule.dto.SignupRequest;
-import com.timecapsule.service.MemberService;
+import com.timecapsule.api.dto.SignupRequest;
+import com.timecapsule.api.service.MemberService;
 import java.net.URI;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
