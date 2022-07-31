@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @RequiredArgsConstructor
 @EnableJpaAuditing
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages="com.timecapsule")
+@EnableJpaRepositories(basePackages="com.timecapsule.infra.repository")
 @EnableConfigurationProperties(DatabaseProperties.class)
 @Configuration
 public class DatabaseConfig {
