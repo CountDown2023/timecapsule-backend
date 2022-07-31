@@ -6,7 +6,7 @@ spring:
     username: root
     password: root
     jpa-hibernate-ddl-auto: create
-    url: jdbc:mysql://localhost:3306/timecapsule?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/timecapsule_test?serverTimezone=Asia/Seoul
     maximum-pool-size: 100
     connection-timeout: 3000
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -29,10 +29,10 @@ spring:
     activate:
       on-profile: production
   datasource:
-    username: fincore22
+    username: root
     password: rmazhvmf123!
-    jpa-hibernate-ddl-auto: create
-    url: jdbc:mysql://43.200.79.62:3306/timecapsule?serverTimezone=Asia/Seoul
+    jpa-hibernate-ddl-auto: validate
+    url: jdbc:mysql://localhost:3306/timecapsule?serverTimezone=Asia/Seoul
     maximum-pool-size: 100
     connection-timeout: 3000
     driver-class-name: com.mysql.cj.jdbc.Driver
