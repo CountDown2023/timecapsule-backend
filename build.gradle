@@ -40,7 +40,7 @@ subprojects { it ->
 		}
 
 		def nonDeployedProjects = ["timecapsule-database"]
-		if (it.name !in nonDeployedProjects) {
+		if (it.name in nonDeployedProjects) {
 			tasks.getByName("bootJar") {
 				enabled = false
 			}

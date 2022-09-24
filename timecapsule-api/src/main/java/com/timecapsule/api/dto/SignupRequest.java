@@ -1,4 +1,4 @@
-package com.timecapsule.dto;
+package com.timecapsule.api.dto;
 
 
 import javax.validation.constraints.Email;
