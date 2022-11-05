@@ -1,0 +1,64 @@
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    username: aaaa
+    password: bbbb
+    jpa-hibernate-ddl-auto: create
+    url: jdbc:h2:mem:default;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    maximum-pool-size: 2
+    connection-timeout: 3000
+    driver-class-name: org.h2.Driver
+
+    jpa:
+      hibernate:
+        ddl-auto: create
+      show-sql: true
+      properties:
+        hiberante.format_sql: true
+
+  logging:
+    level:
+      org.hibernate.SQL: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local, dev
+  datasource:
+    username: root
+    password: root
+    jpa-hibernate-ddl-auto: create
+    url: jdbc:mysql://localhost:3306/timecapsule_test?serverTimezone=Asia/Seoul
+    maximum-pool-size: 10
+    connection-timeout: 3000
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hiberante.format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: production
+  datasource:
+    username: root
+    password: rmazhvmf123!
+    jpa-hibernate-ddl-auto: validate
+    url: jdbc:mysql://localhost:3306/timecapsule?serverTimezone=Asia/Seoul
+    maximum-pool-size: 10
+    connection-timeout: 3000
+    driver-class-name: com.mysql.cj.jdbc.Driver

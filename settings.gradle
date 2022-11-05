@@ -1,4 +1,0 @@
-rootProject.name = 'timecapsule'
-
-include 'timecapsule-api'
-include 'timecapsule-database'

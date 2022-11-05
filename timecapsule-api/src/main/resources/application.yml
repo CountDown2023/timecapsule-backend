@@ -1,4 +1,7 @@
+---
 spring:
+  application:
+    name: timecapsule-api
   profiles:
     include:
       - database
