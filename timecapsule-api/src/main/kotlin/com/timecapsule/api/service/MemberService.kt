@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class MemberService(
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
 ) {
     fun signUp(nickName: String, password: String, email: String): Member =
         memberRepository.save(
