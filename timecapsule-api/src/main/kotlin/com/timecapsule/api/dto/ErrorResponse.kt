@@ -4,15 +4,21 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 
 sealed class ErrorResponse(
-    private val message: String,
-    private val code: String,
-    private val status: Int,
+    open val message: String,
+    open val code: String,
+    open val status: Int,
 )
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class InvalidParamErrorResponse(
-    private val invalidParams: List<String>,
-    private val message: String,
-    private val code: String,
-    private val status: Int,
+    val invalidParams: List<String>,
+    override val message: String,
+    override val code: String,
+    override val status: Int,
+): ErrorResponse(message, code, status)
+
+data class DuplicateEntryErrorResponse(
+    override val message: String,
+    override val code: String,
+    override val status: Int,
 ): ErrorResponse(message, code, status)
