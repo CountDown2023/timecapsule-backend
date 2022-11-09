@@ -22,3 +22,9 @@ data class DuplicateEntryErrorResponse(
     override val code: String,
     override val status: Int,
 ): ErrorResponse(message, code, status)
+
+data class NotFoundErrorResponse(
+        override val message: String,
+        override val code: String,
+        override val status: Int,
+): ErrorResponse(message, code, status)
