@@ -14,6 +14,7 @@ data class Capsule(
     private val bottleColor: Int,
     private val letterPaper: Int,
     private val letterLine: Int,
+    private val toMe: String,
     @Convert(converter = StringListConverter::class)
     private var goals: List<String>,
 ): BaseTimeEntity()
