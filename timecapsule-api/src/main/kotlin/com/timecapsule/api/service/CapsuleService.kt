@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 
 @Service
 class CapsuleService(
-        private val capsuleRepository: CapsuleRepository
+        private val capsuleRepository: CapsuleRepository,
 ) {
     fun getCapsuleDays(capsuleId: Long): Long = Duration.between(getCapsule(capsuleId).createdAt, LocalDateTime.now()).toDays()
 
