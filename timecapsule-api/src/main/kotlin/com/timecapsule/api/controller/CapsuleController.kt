@@ -10,8 +10,6 @@ class CapsuleController(
 ) {
 
     @GetMapping("/api/capsule/{capsuleId}")
-    fun getCapsuleDays(@PathVariable capsuleId: Long): CapsuleDaysResponse {
-        return CapsuleDaysResponse(capsuleId = capsuleId, days = capsuleService.getCapsuleDays(capsuleId))
-    }
+    fun getCapsuleDays(@PathVariable capsuleId: Long): CapsuleDaysResponse = CapsuleDaysResponse(capsuleId = capsuleId, days = capsuleService.getCapsuleDays(capsuleId))
 
 }

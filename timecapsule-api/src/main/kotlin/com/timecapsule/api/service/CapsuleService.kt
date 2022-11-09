@@ -11,11 +11,7 @@ import java.time.LocalDateTime
 class CapsuleService(
         private val capsuleRepository: CapsuleRepository
 ) {
-    private fun getCapsule(capsuleId: Long): Capsule {
-        return capsuleRepository.findByIdOrNull(capsuleId) ?: throw NoSuchElementException()
-    }
+    fun getCapsuleDays(capsuleId: Long): Long = Duration.between(getCapsule(capsuleId).createdAt, LocalDateTime.now()).toDays()
 
-    fun getCapsuleDays(capsuleId: Long): Long {
-        return Duration.between(getCapsule(capsuleId).createdAt, LocalDateTime.now()).toDays()
-    }
+    private fun getCapsule(capsuleId: Long): Capsule = capsuleRepository.findByIdOrNull(capsuleId) ?: throw NoSuchElementException()
 }
