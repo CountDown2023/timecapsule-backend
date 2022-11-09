@@ -16,7 +16,7 @@ class MemberController(
 
     @PostMapping("/api/sign-up")
     fun signUp(@Validated @RequestBody request: SignupRequest): ResponseEntity<Void> {
-        memberService.signUp(request.username, request.password, request.email)
+        memberService.signUp(request.nickname, request.password, request.email)
         return ResponseEntity.created(URI.create("/api/login")).build()
     }
 }
