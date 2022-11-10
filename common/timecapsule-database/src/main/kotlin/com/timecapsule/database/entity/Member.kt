@@ -1,15 +1,21 @@
 package com.timecapsule.database.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import java.lang.IllegalStateException
 import javax.persistence.*
 
 @Entity
 data class Member(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private val id: Long? = null,
+    val id: Long? = null,
     @Column(unique = true)
-    private val nickName: String,
-    private val password: String,
+    val nickname: String,
+    val password: String,
     @Column(unique = true)
-    private val email: String,
-): BaseTimeEntity()
+    val email: String,
+): BaseTimeEntity() {
+    @get:JsonIgnore
+    val nonNullId: Long
+        get() = id ?: throw IllegalStateException("member id는 null일 수 없습니다.")
+}

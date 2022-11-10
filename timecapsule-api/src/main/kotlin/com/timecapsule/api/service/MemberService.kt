@@ -10,9 +10,12 @@ class MemberService(
     private val memberRepository: MemberRepository,
     private val passwordEncoder: PasswordEncoder,
 ) {
-    fun signUp(nickName: String, password: String, email: String): Member =
+
+    fun signUp(nickname: String, password: String, email: String): Member =
         memberRepository.save(
-            Member(nickName = nickName, password = passwordEncoder.encode(password), email = email)
+            Member(nickname = nickname, password = passwordEncoder.encode(password), email = email)
         )
 
+    fun getMember(nickname: String): Member =
+        memberRepository.findByNickname(nickname) ?: throw NoSuchElementException("${nickname}에 해당하는 user가 없습니다.")
 }

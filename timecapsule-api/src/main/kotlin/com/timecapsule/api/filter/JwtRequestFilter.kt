@@ -1,7 +1,7 @@
 package com.timecapsule.api.filter
 
-import com.timecapsule.api.exception.JwtAuthenticationException
 import com.timecapsule.api.service.JwtAuthenticationProvider
+import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
@@ -16,7 +16,8 @@ class JwtRequestFilter(
 ) : OncePerRequestFilter() {
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
-        val accessToken = request.getHeader(AUTHORIZATION_HEADER)?.substring(7) ?: throw JwtAuthenticationException(msg= "NO AUTHORIZATION HEADER")
+        val accessToken = request.getHeader(AUTHORIZATION_HEADER)?.substring(7)
+            ?: return response.sendError(HttpStatus.UNAUTHORIZED.value(), "NO AUTHORIZATION HEADER")
 
         if (jwtAuthenticationProvider.validateToken(accessToken)) {
             jwtAuthenticationProvider.getUserIdFromToken(accessToken).let {

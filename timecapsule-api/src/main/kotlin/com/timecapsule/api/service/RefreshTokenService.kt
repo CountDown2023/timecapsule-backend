@@ -11,11 +11,14 @@ class RefreshTokenService(
 
     fun getRefreshToken(userId: Long): RefreshToken? = refreshTokenRepository.findByUserId(userId)
 
-    fun updateToken(entity: RefreshToken, newTokenString: String): RefreshToken =
-        entity.apply {
-            token = newTokenString
-        }.let {
+    fun updateToken(entity: RefreshToken, newTokenString: String) {
+        entity.updateToken(newTokenString).also {
             refreshTokenRepository.save(it)
         }
+    }
 
+    private fun RefreshToken.updateToken(newToken: String): RefreshToken {
+        this.token = newToken
+        return this
+    }
 }
