@@ -22,11 +22,10 @@ import javax.sql.DataSource
 @EnableJpaAuditing
 @EnableTransactionManagement
 @EnableJpaRepositories(
-    basePackages = ["com.timecapsule.database"],
+    basePackages = ["com.timecapsule.database.repository"],
     transactionManagerRef = "transactionManager",
-    entityManagerFactoryRef = "entityManager",
+    entityManagerFactoryRef = "entityManagerFactory",
 )
-@EntityScan("com.timecapsule.database")
 @EnableConfigurationProperties(DatabaseProperties::class)
 @Configuration
 class DatabaseConfig(
