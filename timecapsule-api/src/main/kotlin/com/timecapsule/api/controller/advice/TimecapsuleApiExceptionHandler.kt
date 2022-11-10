@@ -53,6 +53,23 @@ class TimecapsuleApiExceptionHandler {
         )
     }
 
+    @ExceptionHandler(NoSuchElementException::class)
+    fun handle(
+        ex: NoSuchElementException,
+        request: HttpServletRequest
+    ): ResponseEntity<ErrorResponse> {
+        log.error("entry not found. uri: ${request.requestURI}", ex)
+
+        return ResponseEntity<ErrorResponse>(
+            ErrorResponse(
+                message = ExceptionCode.ENTRY_NOT_FOUND.message,
+                code = ExceptionCode.ENTRY_NOT_FOUND.name,
+                status = HttpStatus.NOT_FOUND.value(),
+            ),
+            HttpStatus.NOT_FOUND
+        )
+    }
+
     @ExceptionHandler(JwtAuthenticationException::class)
     fun handle(
         ex: JwtAuthenticationException,
