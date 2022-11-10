@@ -35,6 +35,6 @@ class JwtRequestFilter(
 
     companion object {
         private val EXCLUDE_URL: Set<String> = setOf("/api/ping", "/api/login", "/api/sign-up")
-        private val AUTHORIZATION_HEADER: String = "Authorization"
+        private const val AUTHORIZATION_HEADER: String = "Authorization"
     }
 }

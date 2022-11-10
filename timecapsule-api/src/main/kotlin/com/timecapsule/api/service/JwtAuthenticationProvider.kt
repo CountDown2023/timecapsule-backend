@@ -35,7 +35,7 @@ class JwtAuthenticationProvider(
     }
 
     fun generateAccessToken(userId: String, now: Date): String =
-        Jwts.builder()
+        PREFIX + Jwts.builder()
             .setClaims(Jwts.claims().setSubject(userId))
             .setId(userId)
             .setIssuedAt(now)
@@ -88,10 +88,10 @@ class JwtAuthenticationProvider(
     private fun getAllClaimsFromToken(token: String): Claims =
         Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).body
 
-
     companion object {
         private const val ACCESS_TOKEN_VALID_TIME: Long = 1000 * 60 * 5 // 5분
         private const val REFRESH_TOKEN_VALID_TIME: Long = 1000 * 60 * 60 * 10 // 10시간
+        private const val PREFIX: String = "Bearer "
     }
 
 }
