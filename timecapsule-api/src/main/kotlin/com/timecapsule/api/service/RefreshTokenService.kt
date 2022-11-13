@@ -11,8 +11,8 @@ class RefreshTokenService(
 
     fun getRefreshToken(memberId: Long): RefreshToken? = refreshTokenRepository.findByMemberId(memberId)
 
-    fun updateToken(entity: RefreshToken, newTokenString: String) {
-        entity.updateToken(newTokenString).also {
+    fun updateToken(token: RefreshToken, newTokenString: String) {
+        token.updateToken(newTokenString).also {
             refreshTokenRepository.save(it)
         }
     }
