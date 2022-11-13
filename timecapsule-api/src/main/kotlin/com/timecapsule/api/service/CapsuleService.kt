@@ -13,5 +13,9 @@ class CapsuleService(
 ) {
     fun getCapsuleDays(capsuleId: Long): Long = Duration.between(getCapsule(capsuleId).createdAt, LocalDateTime.now()).toDays()
 
-    private fun getCapsule(capsuleId: Long): Capsule = capsuleRepository.findByIdOrNull(capsuleId) ?: throw NoSuchElementException()
+    fun getCapsule(capsuleId: Long): Capsule = capsuleRepository.findByIdOrNull(capsuleId)
+        ?: throw NoSuchElementException()
+
+    fun getCapsuleCreatedBy(memberId: Long): Capsule = capsuleRepository.findByMemberId(memberId)
+        ?: throw NoSuchElementException()
 }
