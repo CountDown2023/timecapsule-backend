@@ -42,6 +42,10 @@ class MemberController(
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "OK",
             content = [Content(schema = Schema(implementation = TokenInfo::class))]),
+        ApiResponse(responseCode = "401", description = "패스워드 불일치",
+            content = [Content(schema = Schema(implementation = ErrorResponse::class))]),
+        ApiResponse(responseCode = "404", description = "해당 사용자가 없음",
+            content = [Content(schema = Schema(implementation = ErrorResponse::class))])
     ])
     @PostMapping("/api/member/login")
     fun login(@RequestBody request: LoginRequest): ResponseEntity<TokenInfo> {
@@ -50,12 +54,16 @@ class MemberController(
         return ResponseEntity.ok(jwtAuthenticationProvider.generateTokens(member.nonNullId))
     }
 
-    @Operation(summary = "Refresh Token 재발급 요청")
+    @Operation(summary = "Access Token 재발급 요청")
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "OK",
             content = [Content(schema = Schema(implementation = TokenInfo::class))]),
+        ApiResponse(responseCode = "401", description = "Refresh Token 검증 실패",
+            content = [Content(schema = Schema(implementation = ErrorResponse::class))]),
+        ApiResponse(responseCode = "404", description = "해당 사용자가 없음",
+            content = [Content(schema = Schema(implementation = ErrorResponse::class))])
     ])
-    @PostMapping("/api/member/refresh")
+    @PostMapping("/api/member/refresh-access-token")
     fun refreshAccessToken(@RequestBody request: RefreshRequest): ResponseEntity<TokenInfo> {
         jwtAuthenticationProvider.validateToken(request.refreshToken)
         val member = memberService.getMember(request.nickname)
