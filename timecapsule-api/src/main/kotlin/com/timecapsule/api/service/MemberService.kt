@@ -17,6 +17,8 @@ class MemberService(
             Member(nickname = nickname, password = passwordEncoder.encode(password), email = email)
         )
 
+    fun checkAvailableNickname(nickname: String): Boolean = !memberRepository.existsByNickname(nickname)
+
     fun getMember(memberId: Long): Member =
         memberRepository.findMemberById(memberId)
             ?: throw NoSuchElementException("${memberId}에 해당하는 member가 없습니다.")

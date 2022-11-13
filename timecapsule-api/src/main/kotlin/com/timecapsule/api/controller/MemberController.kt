@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.validation.annotation.Validated
@@ -36,6 +37,20 @@ class MemberController(
         memberService.signUp(request.nickname, request.password, request.email)
         return ResponseEntity.created(URI.create("/api/login")).build()
     }
+
+    @Operation
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "OK",
+            content = [Content(schema = Schema(implementation = ValidateNicknameResponse::class))])
+    ])
+    @GetMapping("/api/member/validate-nickname?{nickname}")
+    fun validateNickname(@RequestParam nickname: String): ResponseEntity<ValidateNicknameResponse> =
+        ResponseEntity<ValidateNicknameResponse>(
+            ValidateNicknameResponse(
+                available = memberService.checkAvailableNickname(nickname)
+            ),
+            HttpStatus.OK
+        )
 
     @Operation(summary = "로그인 요청")
     @ApiResponses(value = [
