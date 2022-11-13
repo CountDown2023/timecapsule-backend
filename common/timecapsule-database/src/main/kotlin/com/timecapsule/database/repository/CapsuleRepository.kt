@@ -4,5 +4,5 @@ import com.timecapsule.database.entity.Capsule
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface CapsuleRepository : JpaRepository<Capsule, Long> {
-    fun findByMemberId(memberId: Long): Capsule?
+    fun findByMemberId(memberId: Long): List<Capsule>
 }
