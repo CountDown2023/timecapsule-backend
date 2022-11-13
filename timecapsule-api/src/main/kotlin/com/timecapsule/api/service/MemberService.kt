@@ -24,7 +24,9 @@ class MemberService(
         return true
     }
 
-
+    fun getMember(memberId: Long): Member =
+        memberRepository.findMemberById(memberId)
+            ?: throw NoSuchElementException("${memberId}에 해당하는 member가 없습니다.")
 
     fun getMember(nickname: String): Member =
         memberRepository.findByNickname(nickname)

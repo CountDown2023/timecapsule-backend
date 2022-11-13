@@ -19,6 +19,5 @@ data class LoginRequest(
 ): MemberRequest(nickname)
 
 data class RefreshRequest(
-    override val nickname: String,
     val refreshToken: String,
-): MemberRequest(nickname)
+)

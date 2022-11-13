@@ -66,7 +66,8 @@ class MemberController(
     @PostMapping("/api/member/refresh-access-token")
     fun refreshAccessToken(@RequestBody request: RefreshRequest): ResponseEntity<TokenInfo> {
         jwtAuthenticationProvider.validateToken(request.refreshToken)
-        val member = memberService.getMember(request.nickname)
+        val memberId = jwtAuthenticationProvider.getMemberIdFromToken(request.refreshToken)
+        val member = memberService.getMember(memberId)
 
         return jwtAuthenticationProvider.generateAccessToken(member.nonNullId.toString(), Date())
             .let { ResponseEntity.ok(TokenInfo(accessToken = it, refreshToken = null)) }
