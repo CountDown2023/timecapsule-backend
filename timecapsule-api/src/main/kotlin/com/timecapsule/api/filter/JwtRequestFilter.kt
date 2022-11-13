@@ -37,7 +37,9 @@ class JwtRequestFilter(
     }
 
     companion object {
-        private val EXCLUDE_URL: Set<String> = setOf("/api/ping", "/api/member/login", "/api/member/sign-up", "/api/usage")
+        private val EXCLUDE_URL: Set<String> = setOf(
+            "/api/ping", "/api/member/login", "/api/member/sign-up", "/api/member/refresh-access-token", "/api/usage"
+        )
         private val SWAGGER_PATH_PATTERNS: Set<String> = setOf("/swagger-ui/**", "/v3/api-docs/**")
         private const val AUTHORIZATION_HEADER: String = "Authorization"
     }

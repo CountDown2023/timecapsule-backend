@@ -21,3 +21,8 @@ data class LoginRequest(
 data class RefreshRequest(
     val refreshToken: String,
 )
+
+data class ChangePasswordRequest(
+    val oldPassword: String,
+    val newPassword: String,
+)
