@@ -26,7 +26,7 @@ class SwaggerConfig {
             .build()
 
     @Bean
-    fun springShopOpenAPI(): OpenAPI {
+    fun timecapsuleApi(): OpenAPI {
         val info = Info().title("TimeCapsule API")
             .description("TimeCapsule 프로젝트 API 명세서입니다.")
             .version("v0.0.1")
