@@ -1,4 +1,6 @@
 FROM openjdk:11-jdk
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java", "-Dspring.profiles.active=${USE_PROFILE}", "-jar","/app.jar"]
+ARG SPRING_PROFILES_ACTIVE
+ENV SPRING_PROFILES_ACTIVE=$SPRING_PROFILES_ACTIVE
+ENTRYPOINT ["java", "-jar","/app.jar"]
