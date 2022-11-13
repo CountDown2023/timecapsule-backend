@@ -29,6 +29,7 @@ class MemberController(
     @PostMapping("/api/login")
     fun login(@RequestBody request: LoginRequest): ResponseEntity<TokenInfo> {
         val member = memberService.getMember(request.nickname)
+        memberService.validatePassword(request.password, member.password)
         return ResponseEntity.ok(jwtAuthenticationProvider.generateTokens(member.nonNullId))
     }
 
