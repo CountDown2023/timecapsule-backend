@@ -26,26 +26,26 @@ class JwtAuthenticationProvider(
         secretKey = Base64.getEncoder().encodeToString(secretKey.toByteArray())
     }
 
-    fun generateTokens(userId: Long): TokenInfo {
+    fun generateTokens(memberId: Long): TokenInfo {
         val now = Date()
-        val accessToken = generateAccessToken(userId.toString(), now)
-        val refreshToken = generateRefreshToken(userId.toString(), now)
+        val accessToken = generateAccessToken(memberId.toString(), now)
+        val refreshToken = generateRefreshToken(memberId.toString(), now)
 
         return TokenInfo(accessToken, refreshToken)
     }
 
-    fun generateAccessToken(userId: String, now: Date): String =
+    fun generateAccessToken(memberId: String, now: Date): String =
         PREFIX + Jwts.builder()
-            .setClaims(Jwts.claims().setSubject(userId))
-            .setId(userId)
+            .setClaims(Jwts.claims().setSubject(memberId))
+            .setId(memberId)
             .setIssuedAt(now)
             .setExpiration(Date(now.time + ACCESS_TOKEN_VALID_TIME))
             .signWith(SignatureAlgorithm.HS512, secretKey)
             .compact()
 
-    fun generateRefreshToken(userId:String, now: Date): String =
+    fun generateRefreshToken(memberId:String, now: Date): String =
         Jwts.builder()
-            .setId(userId)
+            .setId(memberId)
             .setExpiration(Date(now.time + REFRESH_TOKEN_VALID_TIME))
             .signWith(SignatureAlgorithm.HS512, secretKey)
             .compact()
@@ -60,8 +60,8 @@ class JwtAuthenticationProvider(
         }
     }
 
-    fun renewRefreshToken(userPk: Long): TokenInfo? =
-        refreshTokenService.getRefreshToken(userPk)?.let { token ->
+    fun renewRefreshToken(memberId: Long): TokenInfo? =
+        refreshTokenService.getRefreshToken(memberId)?.let { token ->
             try {
                 token.let {
                     validateToken(it.token.substring(7))
@@ -69,7 +69,7 @@ class JwtAuthenticationProvider(
                 }
             } catch (ex: ExpiredJwtException) {
                 token.let {
-                    refreshTokenService.updateToken(it, generateRefreshToken(userPk.toString(), Date()))
+                    refreshTokenService.updateToken(it, generateRefreshToken(memberId.toString(), Date()))
                     TokenInfo(accessToken = null, refreshToken = it.token)
                 }
             } catch (ex: Exception) {
@@ -79,7 +79,7 @@ class JwtAuthenticationProvider(
         }
 
     // token으로 사용자 id 조회
-    fun getUserIdFromToken(token: String): Long = getClaimFromToken(token, Claims::getId).toLong()
+    fun getMemberIdFromToken(token: String): Long = getClaimFromToken(token, Claims::getId).toLong()
 
     // 가져온 claims를 resolve
     private fun <T> getClaimFromToken(token: String, claimsResolver: (Claims) -> T): T = claimsResolver(getAllClaimsFromToken(token))

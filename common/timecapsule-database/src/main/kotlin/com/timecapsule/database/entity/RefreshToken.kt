@@ -11,7 +11,7 @@ data class RefreshToken(
     @GeneratedValue
     private val id: Long? = null,
     @Column(nullable = false, unique = true)
-    val userId: Long,
+    val memberId: Long,
     @Column(nullable = false, unique = true)
     var token: String,
 )

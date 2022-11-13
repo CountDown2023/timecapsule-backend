@@ -20,7 +20,7 @@ class JwtRequestFilter(
             ?: return response.sendError(HttpStatus.UNAUTHORIZED.value(), "NO AUTHORIZATION HEADER")
 
         if (jwtAuthenticationProvider.validateToken(accessToken)) {
-            jwtAuthenticationProvider.getUserIdFromToken(accessToken).let {
+            jwtAuthenticationProvider.getMemberIdFromToken(accessToken).let {
                 SecurityContextHolder.getContext().authentication = UsernamePasswordAuthenticationToken(it, "")
                 jwtAuthenticationProvider.renewRefreshToken(it)
             }

@@ -9,7 +9,7 @@ class RefreshTokenService(
     private val refreshTokenRepository: RefreshTokenRepository,
 ) {
 
-    fun getRefreshToken(userId: Long): RefreshToken? = refreshTokenRepository.findByUserId(userId)
+    fun getRefreshToken(memberId: Long): RefreshToken? = refreshTokenRepository.findByMemberId(memberId)
 
     fun updateToken(entity: RefreshToken, newTokenString: String) {
         entity.updateToken(newTokenString).also {
