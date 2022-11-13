@@ -43,7 +43,7 @@ class MemberController(
         ApiResponse(responseCode = "200", description = "OK",
             content = [Content(schema = Schema(implementation = ValidateNicknameResponse::class))])
     ])
-    @GetMapping("/api/member/validate-nickname?{nickname}")
+    @GetMapping("/api/member/validate-nickname")
     fun validateNickname(@RequestParam nickname: String): ResponseEntity<ValidateNicknameResponse> =
         ResponseEntity<ValidateNicknameResponse>(
             ValidateNicknameResponse(
@@ -80,7 +80,7 @@ class MemberController(
     ])
     @PutMapping("/api/member/password")
     fun changePassword(
-        @RequestHeader(name = "Authentication") accessToken: String,
+        @RequestHeader(name = "Authorization") accessToken: String,
         @RequestBody request: ChangePasswordRequest,
     ): ResponseEntity<Void> {
         val memberId = jwtAuthenticationProvider.getMemberIdFromToken(accessToken.substring(7))
