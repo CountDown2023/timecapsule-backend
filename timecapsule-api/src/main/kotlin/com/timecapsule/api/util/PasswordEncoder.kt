@@ -8,6 +8,8 @@ class PasswordEncoder {
 
     fun encode(str: String): String = encoder.encode(str)
 
+    fun matches(raw: String, encoded: String): Boolean = encoder.matches(raw, encoded)
+
     companion object {
         private val encoder = BCryptPasswordEncoder()
     }

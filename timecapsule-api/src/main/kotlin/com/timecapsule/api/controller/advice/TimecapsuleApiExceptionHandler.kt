@@ -8,6 +8,7 @@ import mu.KotlinLogging
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -79,7 +80,24 @@ class TimecapsuleApiExceptionHandler {
 
         return ResponseEntity<ErrorResponse>(
             ErrorResponse(
-                message = ExceptionCode.AUTHENTICATION_FAILED.message,
+                message = ex.msg,
+                code = ExceptionCode.AUTHENTICATION_FAILED.name,
+                status = HttpStatus.UNAUTHORIZED.value()
+            ),
+            HttpStatus.UNAUTHORIZED
+        )
+    }
+
+    @ExceptionHandler(BadCredentialsException::class)
+    fun handle(
+        ex: BadCredentialsException,
+        request: HttpServletRequest
+    ): ResponseEntity<ErrorResponse> {
+        log.error("로그인 실패, uri: ${request.requestURI}", ex)
+
+        return ResponseEntity<ErrorResponse>(
+            ErrorResponse(
+                message = ex.message ?: ExceptionCode.AUTHENTICATION_FAILED.message,
                 code = ExceptionCode.AUTHENTICATION_FAILED.name,
                 status = HttpStatus.UNAUTHORIZED.value()
             ),
