@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
+import org.springframework.util.AntPathMatcher
 import org.springframework.web.filter.OncePerRequestFilter
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
@@ -30,11 +31,14 @@ class JwtRequestFilter(
     }
 
     override fun shouldNotFilter(request: HttpServletRequest): Boolean {
+        val pathMatcher = AntPathMatcher()
         return EXCLUDE_URL.contains(request.servletPath)
+            || SWAGGER_PATH_PATTERNS.any { pathMatcher.match(it, request.servletPath) }
     }
 
     companion object {
-        private val EXCLUDE_URL: Set<String> = setOf("/api/ping", "/api/login", "/api/sign-up")
+        private val EXCLUDE_URL: Set<String> = setOf("/api/ping", "/api/member/login", "/api/member/sign-up")
+        private val SWAGGER_PATH_PATTERNS: Set<String> = setOf("/swagger-ui/**", "/v3/api-docs/**")
         private const val AUTHORIZATION_HEADER: String = "Authorization"
     }
 }
