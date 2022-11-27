@@ -70,6 +70,10 @@ configure(subprojects.filter { it.name !in nonDependenciesProjects }) {
 		useJUnitPlatform()
 	}
 
+	tasks.jar {
+		enabled = false
+	}
+
 }
 
 val nonDeployedProjects = listOf(rootProject) + subprojects.filter { it.parent?.name in nonDependenciesProjects }

@@ -9,3 +9,5 @@ spring:
     user:
       name: user
       password: 1234
+  jwt:
+    secret: xkdlazoqtbfWkdWkd123$
