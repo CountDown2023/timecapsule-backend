@@ -2,7 +2,6 @@ package com.timecapsule.api.dto
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
-import javax.validation.constraints.Email
 
 sealed class MemberRequest(
     open val nickname: String,
@@ -11,8 +10,6 @@ sealed class MemberRequest(
 data class SignupRequest(
     override val nickname: String,
     val password: String,
-    @field:Email
-    val email: String,
 ): MemberRequest(nickname)
 
 data class LoginRequest(
