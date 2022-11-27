@@ -47,18 +47,3 @@ spring:
 logging:
   level:
     org.hibernate.SQL: DEBUG
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: production
-  datasource:
-    username: root
-    password: rmazhvmf123!
-    jpa-hibernate-ddl-auto: validate
-    url: jdbc:mysql://localhost:3306/timecapsule?serverTimezone=Asia/Seoul
-    maximum-pool-size: 10
-    connection-timeout: 3000
-    driver-class-name: com.mysql.cj.jdbc.Driver
