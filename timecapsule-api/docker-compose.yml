@@ -7,13 +7,14 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - SPRING_PROFILES_ACTIVE=production
+        SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
     ports:
       - "8080:8080"
     networks:
       - timecapsule-network
     depends_on:
       - timecapsule-database
+      - timecapsule-dev-database
 
   timecapsule-database:
     container_name: timecapsule-database
