@@ -27,7 +27,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./.db/data:/var/lib/mysql
+      - ~/.db/data:/var/lib/mysql
     networks:
       - timecapsule-network
 
@@ -43,7 +43,7 @@ services:
     ports:
       - 3305:3305
     volumes:
-      - ./.db-dev/data:/var/lib/mysql
+      - ~/.db-dev/data:/var/lib/mysql
     networks:
       - timecapsule-network
 
