@@ -58,4 +58,19 @@ class CapsuleController(
         val memberId = jwtAuthenticationProvider.getMemberIdFromToken(accessToken.substring(7))
         return ResponseEntity.ok(CapsuleResponse.from(capsuleService.createCapsule(request, memberId)))
     }
+
+    @Operation(summary = "익명의 캡슐 조회")
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "OK",
+            content = [Content(schema = Schema(implementation = CapsuleResponse::class))]),
+        ApiResponse(responseCode = "404", description = "조회할 익명의 캡슐이 없음",
+            content = [Content(schema = Schema(implementation = ErrorResponse::class))])
+    ])
+    @GetMapping("/api/capsule/floating")
+    fun getFloatingCapsule(
+        @RequestHeader(name = "Authorization") accessToken: String,
+    ): ResponseEntity<CapsuleResponse> {
+        val receiverId = jwtAuthenticationProvider.getMemberIdFromToken(accessToken.substring(7))
+        return ResponseEntity.ok(CapsuleResponse.from(capsuleService.getFloatingCapsule(receiverId)))
+    }
 }
