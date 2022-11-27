@@ -12,9 +12,9 @@ class MemberService(
     private val passwordEncoder: PasswordEncoder,
 ) {
 
-    fun signUp(nickname: String, password: String, email: String): Member =
+    fun signUp(nickname: String, password: String): Member =
         memberRepository.save(
-            Member(nickname = nickname, password = passwordEncoder.encode(password), email = email)
+            Member(nickname = nickname, password = passwordEncoder.encode(password))
         )
 
     fun checkAvailableNickname(nickname: String): Boolean = !memberRepository.existsByNickname(nickname)

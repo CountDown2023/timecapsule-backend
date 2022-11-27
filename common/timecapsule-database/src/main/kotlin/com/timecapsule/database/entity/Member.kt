@@ -12,8 +12,6 @@ data class Member(
     @Column(unique = true)
     val nickname: String,
     var password: String,
-    @Column(unique = true)
-    val email: String,
 ): BaseTimeEntity() {
     @get:JsonIgnore
     val nonNullId: Long
