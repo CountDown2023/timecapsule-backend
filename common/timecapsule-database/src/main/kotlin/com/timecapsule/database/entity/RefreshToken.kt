@@ -1,14 +1,11 @@
 package com.timecapsule.database.entity
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 data class RefreshToken(
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private val id: Long? = null,
     @Column(nullable = false, unique = true)
     val memberId: Long,
