@@ -12,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import javax.persistence.NonUniqueResultException
 import javax.servlet.http.HttpServletRequest
 
 private val log = KotlinLogging.logger {}
@@ -102,6 +103,23 @@ class TimecapsuleApiExceptionHandler {
                 status = HttpStatus.UNAUTHORIZED.value()
             ),
             HttpStatus.UNAUTHORIZED
+        )
+    }
+
+    @ExceptionHandler(NonUniqueResultException::class)
+    fun handle(
+        ex: NonUniqueResultException,
+        request: HttpServletRequest
+    ): ResponseEntity<ErrorResponse> {
+        log.error("capsule already exists. uri: ${request.requestURI}", ex)
+
+        return ResponseEntity<ErrorResponse>(
+            ErrorResponse(
+                message = ExceptionCode.CAPSULE_ALREADY_EXISTS.message,
+                code = ExceptionCode.CAPSULE_ALREADY_EXISTS.name,
+                status = HttpStatus.CONFLICT.value(),
+            ),
+            HttpStatus.CONFLICT
         )
     }
 }
