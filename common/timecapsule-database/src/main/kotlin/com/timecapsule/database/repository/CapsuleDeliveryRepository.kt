@@ -4,5 +4,5 @@ import com.timecapsule.database.entity.CapsuleDelivery
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface CapsuleDeliveryRepository : JpaRepository<CapsuleDelivery, Long> {
-    fun findTop1ByMemberIdNotOrderByCountDesc(memberId: Long): CapsuleDelivery?
+    fun findTop1ByMemberIdNotOrderByCount(memberId: Long): CapsuleDelivery?
 }

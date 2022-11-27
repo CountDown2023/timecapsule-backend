@@ -34,7 +34,7 @@ class CapsuleService(
     }
 
     fun getFloatingCapsule(receiverId: Long): Capsule =
-        capsuleDeliveryRepository.findTop1ByMemberIdNotOrderByCountDesc(receiverId)
+        capsuleDeliveryRepository.findTop1ByMemberIdNotOrderByCount(receiverId)
             ?.let {
                 it.increaseDeliveryCount()
                 capsuleDeliveryRepository.save(it)
