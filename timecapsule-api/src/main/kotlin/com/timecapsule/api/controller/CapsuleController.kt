@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @Tag(name = "Capsule Controller")
@@ -27,7 +28,7 @@ class CapsuleController(
             content = [Content(schema = Schema(implementation = ErrorResponse::class))])
     ])
     @GetMapping("/api/capsule/{capsuleId}/days")
-    fun getCapsuleDays(@PathVariable capsuleId: Long): CapsuleDaysResponse = CapsuleDaysResponse(capsuleId = capsuleId, days = capsuleService.getCapsuleDays(capsuleId))
+    fun getCapsuleDays(@PathVariable capsuleId: Long): ResponseEntity<CapsuleDaysResponse> = ResponseEntity.ok(CapsuleDaysResponse(capsuleId = capsuleId, days = capsuleService.getCapsuleDays(capsuleId)))
 
     @Operation(summary = "나의 캡슐 정보")
     @ApiResponses(value = [
@@ -37,22 +38,24 @@ class CapsuleController(
     @GetMapping("/api/capsule/my")
     fun getMyCapsule(
         @RequestHeader(name = "Authorization") accessToken: String,
-    ): List<CapsuleResponse> {
+    ): ResponseEntity<List<CapsuleResponse>> {
         val memberId = jwtAuthenticationProvider.getMemberIdFromToken(accessToken.substring(7))
-        return capsuleService.getCapsuleCreatedBy(memberId).map { CapsuleResponse.of(it) }
+        return ResponseEntity.ok(capsuleService.getCapsuleCreatedBy(memberId).map { CapsuleResponse.from(it) })
     }
 
-    @Operation(summary = "나의 캡슐 정보")
+    @Operation(summary = "캡슐 생성")
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "OK",
             content = [Content(schema = Schema(implementation = CapsuleResponse::class))]),
+        ApiResponse(responseCode = "400", description = "이미 캡슐이 존재함",
+            content = [Content(schema = Schema(implementation = ErrorResponse::class))])
     ])
     @PostMapping("/api/capsule")
     fun createCapsule(
         @RequestHeader(name = "Authorization") accessToken: String,
         @RequestBody request: CreateCapsuleRequest,
-    ): CapsuleResponse {
+    ): ResponseEntity<CapsuleResponse> {
         val memberId = jwtAuthenticationProvider.getMemberIdFromToken(accessToken.substring(7))
-        return CapsuleResponse.of(capsuleService.createCapsule(request, memberId))
+        return ResponseEntity.ok(CapsuleResponse.from(capsuleService.createCapsule(request, memberId)))
     }
 }

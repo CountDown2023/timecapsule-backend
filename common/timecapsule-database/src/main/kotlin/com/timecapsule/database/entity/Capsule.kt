@@ -18,7 +18,7 @@ data class Capsule(
     val letterLine: Int,
     val content: String,
     @Convert(converter = StringListConverter::class)
-    var goals: List<String>,
+    val goals: List<String>,
 ) : BaseTimeEntity() {
     @get:JsonIgnore
     val nonNullId: Long

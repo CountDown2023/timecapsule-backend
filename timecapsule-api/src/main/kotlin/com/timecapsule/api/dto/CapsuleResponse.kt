@@ -18,7 +18,7 @@ class CapsuleResponse(
 ) {
 
     companion object {
-        fun of(capsule: Capsule): CapsuleResponse = CapsuleResponse(
+        fun from(capsule: Capsule): CapsuleResponse = CapsuleResponse(
             capsuleId = capsule.nonNullId,
             memberId = capsule.memberId,
             name = capsule.name,

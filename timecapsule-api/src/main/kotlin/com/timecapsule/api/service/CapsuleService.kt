@@ -7,6 +7,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.Duration
 import java.time.LocalDateTime
+import javax.persistence.NonUniqueResultException
 
 @Service
 class CapsuleService(
@@ -19,5 +20,10 @@ class CapsuleService(
 
     fun getCapsuleCreatedBy(memberId: Long): List<Capsule> = capsuleRepository.findByMemberId(memberId)
 
-    fun createCapsule(request: CreateCapsuleRequest, memberId: Long): Capsule = capsuleRepository.save(request.toCapsule(memberId))
+    fun createCapsule(request: CreateCapsuleRequest, memberId: Long): Capsule {
+        if (getCapsuleCreatedBy(memberId).isNotEmpty()) {
+            throw NonUniqueResultException()
+        }
+        return capsuleRepository.save(request.toCapsule(memberId))
+    }
 }
