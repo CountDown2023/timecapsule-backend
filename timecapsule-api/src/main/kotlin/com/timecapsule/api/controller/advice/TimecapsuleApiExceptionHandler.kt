@@ -117,9 +117,9 @@ class TimecapsuleApiExceptionHandler {
             ErrorResponse(
                 message = ExceptionCode.CAPSULE_ALREADY_EXISTS.message,
                 code = ExceptionCode.CAPSULE_ALREADY_EXISTS.name,
-                status = HttpStatus.BAD_REQUEST.value(),
+                status = HttpStatus.CONFLICT.value(),
             ),
-            HttpStatus.BAD_REQUEST
+            HttpStatus.CONFLICT
         )
     }
 }

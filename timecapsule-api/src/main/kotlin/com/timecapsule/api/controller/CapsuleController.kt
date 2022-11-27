@@ -47,7 +47,7 @@ class CapsuleController(
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "OK",
             content = [Content(schema = Schema(implementation = CapsuleResponse::class))]),
-        ApiResponse(responseCode = "400", description = "이미 캡슐이 존재함",
+        ApiResponse(responseCode = "409", description = "이미 캡슐이 존재함",
             content = [Content(schema = Schema(implementation = ErrorResponse::class))])
     ])
     @PostMapping("/api/capsule")
