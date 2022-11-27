@@ -39,8 +39,9 @@ services:
       MYSQL_PASSWORD: timecapsule
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_HOST: '%'
+      MYSQL_TCP_PORT: 3305
     ports:
-      - 3305:3306
+      - 3305:3305
     volumes:
       - ~/.db-dev/data:/var/lib/mysql
     networks:
