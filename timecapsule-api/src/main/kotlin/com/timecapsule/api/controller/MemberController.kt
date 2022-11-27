@@ -9,11 +9,11 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.net.URI
 import java.util.*
 
@@ -38,6 +38,20 @@ class MemberController(
         return ResponseEntity.created(URI.create("/api/login")).build()
     }
 
+    @Operation
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "OK",
+            content = [Content(schema = Schema(implementation = ValidateNicknameResponse::class))])
+    ])
+    @GetMapping("/api/member/validate-nickname")
+    fun validateNickname(@RequestParam nickname: String): ResponseEntity<ValidateNicknameResponse> =
+        ResponseEntity<ValidateNicknameResponse>(
+            ValidateNicknameResponse(
+                available = memberService.checkAvailableNickname(nickname)
+            ),
+            HttpStatus.OK
+        )
+
     @Operation(summary = "로그인 요청")
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "OK",
@@ -50,8 +64,34 @@ class MemberController(
     @PostMapping("/api/member/login")
     fun login(@RequestBody request: LoginRequest): ResponseEntity<TokenInfo> {
         val member = memberService.getMember(request.nickname)
-        memberService.validatePassword(request.password, member.password)
+        if (!memberService.validatePassword(request.password, member.password)) {
+            throw BadCredentialsException("password가 일치하지 않습니다.")
+        }
         return ResponseEntity.ok(jwtAuthenticationProvider.generateTokens(member.nonNullId))
+    }
+
+    @Operation(summary = "비밀번호 수정")
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "OK"),
+        ApiResponse(responseCode = "401", description = "패스워드 불일치",
+            content = [Content(schema = Schema(implementation = ErrorResponse::class))]),
+        ApiResponse(responseCode = "404", description = "해당 사용자가 없음",
+            content = [Content(schema = Schema(implementation = ErrorResponse::class))])
+    ])
+    @PutMapping("/api/member/password")
+    fun changePassword(
+        @RequestHeader(name = "Authorization") accessToken: String,
+        @RequestBody request: ChangePasswordRequest,
+    ): ResponseEntity<Void> {
+        val memberId = jwtAuthenticationProvider.getMemberIdFromToken(accessToken.substring(7))
+        val member = memberService.getMember(memberId)
+
+        // old == new 인지는 클라에서 검증해서 보내야할듯
+        if (!memberService.validatePassword(request.oldPassword, member.password)) {
+            throw BadCredentialsException("password가 일치하지 않습니다.")
+        }
+        memberService.changePassword(member, request.newPassword)
+        return ResponseEntity.ok(null)
     }
 
     @Operation(summary = "Access Token 재발급 요청")

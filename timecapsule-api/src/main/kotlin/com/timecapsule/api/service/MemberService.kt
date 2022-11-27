@@ -17,12 +17,7 @@ class MemberService(
             Member(nickname = nickname, password = passwordEncoder.encode(password), email = email)
         )
 
-    fun validatePassword(rawPassword: String, encodedPassword: String): Boolean {
-        if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
-            throw BadCredentialsException("password가 일치하지 않습니다.")
-        }
-        return true
-    }
+    fun checkAvailableNickname(nickname: String): Boolean = !memberRepository.existsByNickname(nickname)
 
     fun getMember(memberId: Long): Member =
         memberRepository.findMemberById(memberId)
@@ -31,4 +26,15 @@ class MemberService(
     fun getMember(nickname: String): Member =
         memberRepository.findByNickname(nickname)
             ?: throw NoSuchElementException("${nickname}에 해당하는 member가 없습니다.")
+
+    fun validatePassword(rawPassword: String, encodedPassword: String): Boolean =
+        passwordEncoder.matches(rawPassword, encodedPassword)
+
+    fun changePassword(member: Member, newPassword: String): Member =
+        memberRepository.save(member.updatePassword(newPassword))
+
+    private fun Member.updatePassword(newPassword: String): Member =
+        this.apply {
+            password = passwordEncoder.encode(newPassword)
+        }
 }

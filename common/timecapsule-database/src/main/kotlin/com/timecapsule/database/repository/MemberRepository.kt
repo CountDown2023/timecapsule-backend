@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface MemberRepository: JpaRepository<Member, Long> {
     fun findByNickname(nickname: String): Member?
     fun findMemberById(id: Long): Member?
+    fun existsByNickname(nickname: String): Boolean
 }

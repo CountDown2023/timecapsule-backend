@@ -11,7 +11,7 @@ data class Member(
     val id: Long? = null,
     @Column(unique = true)
     val nickname: String,
-    val password: String,
+    var password: String,
     @Column(unique = true)
     val email: String,
 ): BaseTimeEntity() {
