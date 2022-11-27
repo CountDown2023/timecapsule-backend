@@ -1,3 +1,5 @@
+version: '3'
+
 services:
   timecapsule-api:
     container_name: timecapsule-api
@@ -5,29 +7,44 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - SPRING_PROFILES_ACTIVE=production
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://timecapsule-database:3306/timecapsule?useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: "root"
-      SPRING_DATASOURCE_PASSWORD: "root"
+        SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
     ports:
       - "8080:8080"
     networks:
       - timecapsule-network
     depends_on:
       - timecapsule-database
+      - timecapsule-dev-database
 
   timecapsule-database:
     container_name: timecapsule-database
     image: mysql/mysql-server:8.0
     environment:
       MYSQL_DATABASE: timecapsule
+      MYSQL_USER: timecapsule
+      MYSQL_PASSWORD: timecapsule
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_HOST: '%'
     ports:
       - 3306:3306
     volumes:
-      - ./.db/data:/var/lib/mysql
+      - ~/.db/data:/var/lib/mysql
+    networks:
+      - timecapsule-network
+
+  timecapsule-dev-database:
+    container_name: timecapsule-dev-database
+    image: mysql/mysql-server:8.0
+    environment:
+      MYSQL_DATABASE: timecapsule
+      MYSQL_USER: timecapsule
+      MYSQL_PASSWORD: timecapsule
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - 3305:3305
+    volumes:
+      - ~/.db-dev/data:/var/lib/mysql
     networks:
       - timecapsule-network
 

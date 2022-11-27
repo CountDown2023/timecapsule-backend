@@ -2,7 +2,7 @@
 spring:
   config:
     activate:
-      on-profile: test
+      on-profile: test, local
   datasource:
     username: aaaa
     password: bbbb
@@ -27,19 +27,19 @@ spring:
 spring:
   config:
     activate:
-      on-profile: local, dev
+      on-profile: dev
   datasource:
-    username: root
-    password: root
-    jpa-hibernate-ddl-auto: create
-    url: jdbc:mysql://localhost:3306/timecapsule_test?serverTimezone=Asia/Seoul
+    username: timecapsule
+    password: timecapsule
+    jpa-hibernate-ddl-auto: validate
+    url: jdbc:mysql://timecapsule-dev-database:3305/timecapsule?serverTimezone=Asia/Seoul
     maximum-pool-size: 10
     connection-timeout: 3000
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     show-sql: true
     properties:
       hiberante.format_sql: true
@@ -47,3 +47,18 @@ spring:
 logging:
   level:
     org.hibernate.SQL: DEBUG
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: production
+  datasource:
+    username: timecapsule
+    password: timecapsule
+    jpa-hibernate-ddl-auto: validate
+    url: jdbc:mysql://timecapsule-database:3306/timecapsule?useSSL=false&allowPublicKeyRetrieval=true
+    maximum-pool-size: 10
+    connection-timeout: 3000
+    driver-class-name: com.mysql.cj.jdbc.Driver
