@@ -8,4 +8,6 @@ enum class ExceptionCode(
     AUTHENTICATION_FAILED("인증에 실패했습니다."),
     ENTRY_NOT_FOUND("조회하는 항목이 존재하지 않습니다."),
     CAPSULE_ALREADY_EXISTS("이미 캡슐이 존재합니다."),
+
+    SERVER_ERROR("서버에러입니다."),
 }

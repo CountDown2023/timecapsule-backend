@@ -34,6 +34,9 @@ class MemberController(
     ])
     @PostMapping("/api/member/sign-up")
     fun signUp(@Validated @RequestBody request: SignupRequest): ResponseEntity<Void> {
+        if (request.nickname.isEmpty() || request.password.isEmpty()) {
+            throw IllegalArgumentException("잘못된 요청입니다. nickname, password는 필수값입니다.")
+        }
         memberService.signUp(request.nickname, request.password)
         return ResponseEntity.created(URI.create("/api/login")).build()
     }
