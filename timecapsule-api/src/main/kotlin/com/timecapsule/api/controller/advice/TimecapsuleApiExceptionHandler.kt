@@ -47,8 +47,8 @@ class TimecapsuleApiExceptionHandler {
 
         return ResponseEntity<ErrorResponse>(
             ErrorResponse(
-                message = ExceptionCode.DUPLICATED_USER.message,
-                code = ExceptionCode.DUPLICATED_USER.name,
+                message = ex.message ?: ExceptionCode.DUPLICATED_ENTITY.message,
+                code = ExceptionCode.DUPLICATED_ENTITY.name,
                 status = HttpStatus.BAD_REQUEST.value(),
             ),
             HttpStatus.BAD_REQUEST
@@ -64,7 +64,7 @@ class TimecapsuleApiExceptionHandler {
 
         return ResponseEntity<ErrorResponse>(
             ErrorResponse(
-                message = ExceptionCode.ENTRY_NOT_FOUND.message,
+                message = ex.message ?: ExceptionCode.ENTRY_NOT_FOUND.message,
                 code = ExceptionCode.ENTRY_NOT_FOUND.name,
                 status = HttpStatus.NOT_FOUND.value(),
             ),
@@ -115,8 +115,8 @@ class TimecapsuleApiExceptionHandler {
 
         return ResponseEntity<ErrorResponse>(
             ErrorResponse(
-                message = ex.message ?: ExceptionCode.SERVER_ERROR.message,
-                code = ExceptionCode.SERVER_ERROR.name,
+                message = ex.message ?: ExceptionCode.DUPLICATED_ENTITY.message,
+                code = ExceptionCode.DUPLICATED_ENTITY.name,
                 status = HttpStatus.CONFLICT.value(),
             ),
             HttpStatus.CONFLICT
