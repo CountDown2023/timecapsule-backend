@@ -47,8 +47,8 @@ class TimecapsuleApiExceptionHandler {
 
         return ResponseEntity<ErrorResponse>(
             ErrorResponse(
-                message = ExceptionCode.DUPLICATED_USER.message,
-                code = ExceptionCode.DUPLICATED_USER.name,
+                message = ex.message ?: ExceptionCode.DUPLICATED_ENTITY.message,
+                code = ExceptionCode.DUPLICATED_ENTITY.name,
                 status = HttpStatus.BAD_REQUEST.value(),
             ),
             HttpStatus.BAD_REQUEST
@@ -64,7 +64,7 @@ class TimecapsuleApiExceptionHandler {
 
         return ResponseEntity<ErrorResponse>(
             ErrorResponse(
-                message = ExceptionCode.ENTRY_NOT_FOUND.message,
+                message = ex.message ?: ExceptionCode.ENTRY_NOT_FOUND.message,
                 code = ExceptionCode.ENTRY_NOT_FOUND.name,
                 status = HttpStatus.NOT_FOUND.value(),
             ),
@@ -111,15 +111,33 @@ class TimecapsuleApiExceptionHandler {
         ex: NonUniqueResultException,
         request: HttpServletRequest
     ): ResponseEntity<ErrorResponse> {
-        log.error("capsule already exists. uri: ${request.requestURI}", ex)
+        log.error("중복된 데이터가 존재합니다. uri: ${request.requestURI}", ex)
 
         return ResponseEntity<ErrorResponse>(
             ErrorResponse(
-                message = ExceptionCode.CAPSULE_ALREADY_EXISTS.message,
-                code = ExceptionCode.CAPSULE_ALREADY_EXISTS.name,
+                message = ex.message ?: ExceptionCode.DUPLICATED_ENTITY.message,
+                code = ExceptionCode.DUPLICATED_ENTITY.name,
                 status = HttpStatus.CONFLICT.value(),
             ),
             HttpStatus.CONFLICT
         )
     }
+
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handle(
+        ex: java.lang.IllegalArgumentException,
+        request: HttpServletRequest,
+    ): ResponseEntity<ErrorResponse> {
+        log.error("잘못된 요청입니다. uri: ${request.requestURI}", ex)
+
+        return ResponseEntity<ErrorResponse>(
+            ErrorResponse(
+                message = ex.message ?: ExceptionCode.INVALID_REQUEST.message,
+                code = ExceptionCode.INVALID_REQUEST.message,
+                status = HttpStatus.BAD_REQUEST.value(),
+            ),
+            HttpStatus.BAD_REQUEST
+        )
+    }
+
 }
